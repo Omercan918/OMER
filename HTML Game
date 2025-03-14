@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Macera Oyunu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .option-button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #000;
+            background-color: #f0f0f0;
+        }
+        .option-button:hover {
+            background-color: #dcdcdc;
+        }
+    </style>
+</head>
+<body>
+    <h1>Macera Oyunu</h1>
+    <p id="scene-description"></p>
+    <div id="options"></div>
+
+    <script>
+        const scenes = {
+            start: {
+                description: "Küçük bir ormanda uyanıyorsunuz. Etrafta kuşların cıvıltısı var. Önünüzde 3 yol var.",
+                options: [
+                    { text: "Sağdaki çiçekli yola git.", nextScene: "flowerPath" },
+                    { text: "Soldaki karanlık patikaya gir.", nextScene: "darkPath" },
+                    { text: "Düz devam et ve gölete git.", nextScene: "pond" }
+                ]
+            },
+            flowerPath: {
+                description: "Çiçekli yol sizi rengarenk bir bahçeye götürdü. Bahçede bir tavşan var. Ne yapacaksınız?",
+                options: [
+                    { text: "Tavşanı takip et.", nextScene: "rabbit" },
+                    { text: "Bahçede bir şeyler ye.", nextScene: "eat" },
+                    { text: "Bahçeden çık ve başka bir yere git.", nextScene: "exitGarden" }
+                ]
+            },
+            darkPath: {
+                description: "Karanlık patikada ilerlerken bir kurt uluması duyuyorsunuz. Hemen bir karar vermelisiniz.",
+                options: [
+                    { text: "Koş ve kaç.", nextScene: "runAway" },
+                    { text: "Bir ağacın arkasına saklan.", nextScene: "hide" },
+                    { text: "Sakin ol ve ilerle.", nextScene: "proceed" }
+                ]
+            },
+            pond: {
+                description: "Gölete vardınız. Göletin kenarında küçük bir kurbağa var.",
+                options: [
+                    { text: "Kurbağa ile konuşmaya çalış.", nextScene: "talkFrog" },
+                    { text: "Suya bir taş at.", nextScene: "throwStone" },
+                    { text: "Göletten biraz su iç.", nextScene: "drinkWater" }
+                ]
+            },
+            // Daha fazla sahne ekleyebilirsiniz!
+        };
+
+        function showScene(sceneKey) {
+            const scene = scenes[sceneKey];
+            document.getElementById("scene-description").innerText = scene.description;
+            const optionsDiv = document.getElementById("options");
+            optionsDiv.innerHTML = "";
+            scene.options.forEach(option => {
+                const button = document.createElement("button");
+                button.innerText = option.text;
+                button.className = "option-button";
+                button.onclick = () => showScene(option.nextScene);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        showScene("start");
+    </script>
+</body>
+</html>
